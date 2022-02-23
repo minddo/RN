@@ -1,10 +1,10 @@
 import {useCallback} from 'react';
 import SocketIOClient, {Socket} from 'socket.io-client';
-import Config from 'react-native-config';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
-
+import {API_URL} from '../constants/constants';
 let socket: Socket | undefined;
+
 const useSocket = (): [Socket | undefined, () => void] => {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
   const disconnect = useCallback(() => {
@@ -16,7 +16,7 @@ const useSocket = (): [Socket | undefined, () => void] => {
   }, [isLoggedIn]);
   if (!socket && isLoggedIn) {
     console.log(!socket && isLoggedIn, '웹소켓 연결을 진행합니다.');
-    socket = SocketIOClient(`${Config.API_URL}`, {
+    socket = SocketIOClient(`${API_URL}`, {
       transports: ['websocket'],
     });
   }

@@ -15,8 +15,8 @@ import axios, {AxiosError} from 'axios';
 import {Alert} from 'react-native';
 import userSlice from './src/slices/user';
 import {useAppDispatch} from './src/store';
-import Config from 'react-native-config';
 import orderSlice from './src/slices/order';
+import {API_URL} from './src/constants/constants';
 
 export type LoggedInParamList = {
   Orders: undefined;
@@ -36,7 +36,6 @@ const Stack = createNativeStackNavigator();
 function AppInner() {
   const dispatch = useAppDispatch();
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
-  console.log('isLoggedIn', isLoggedIn);
 
   const [socket, disconnect] = useSocket();
 
@@ -49,7 +48,7 @@ function AppInner() {
           return;
         }
         const response = await axios.post(
-          `${Config.API_URL}/refreshToken`,
+          `${API_URL}/refreshToken`,
           {},
           {
             headers: {
@@ -69,6 +68,8 @@ function AppInner() {
         if ((error as AxiosError).response?.data.code === 'expired') {
           Alert.alert('알림', '다시 로그인 해주세요.');
         }
+      } finally {
+        // TODO : 스플래시 스크린 만들기
       }
     };
     getTokenAndRefresh();
@@ -113,7 +114,7 @@ function AppInner() {
             const refreshToken = await EncryptedStorage.getItem('refreshToken');
             // token refresh 요청
             const {data} = await axios.post(
-              `${Config.API_URL}/refreshToken`, // token refresh api
+              `${API_URL}/refreshToken`, // token refresh api
               {},
               {headers: {authorization: `Bearer ${refreshToken}`}},
             );
