@@ -15,8 +15,9 @@ import axios, {AxiosError} from 'axios';
 import {Alert} from 'react-native';
 import userSlice from './src/slices/user';
 import {useAppDispatch} from './src/store';
-import orderSlice from './src/slices/order';
 import {API_URL} from './src/constants/constants';
+import orderSlice from './src/slices/order';
+import usePermissions from './src/hooks/usePermissions';
 
 export type LoggedInParamList = {
   Orders: undefined;
@@ -24,7 +25,6 @@ export type LoggedInParamList = {
   Delivery: undefined;
   Complete: {orderId: string};
 };
-
 export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
@@ -36,8 +36,11 @@ const Stack = createNativeStackNavigator();
 function AppInner() {
   const dispatch = useAppDispatch();
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
+  console.log('isLoggedIn', isLoggedIn);
 
   const [socket, disconnect] = useSocket();
+
+  //usePermissions();
 
   // 앱 실행 시 토큰 있으면 로그인하는 코드
   useEffect(() => {
@@ -68,8 +71,6 @@ function AppInner() {
         if ((error as AxiosError).response?.data.code === 'expired') {
           Alert.alert('알림', '다시 로그인 해주세요.');
         }
-      } finally {
-        // TODO : 스플래시 스크린 만들기
       }
     };
     getTokenAndRefresh();
@@ -140,7 +141,7 @@ function AppInner() {
       <Tab.Screen
         name="Delivery"
         component={Delivery}
-        options={{title: '내 오더'}}
+        options={{headerShown: false}}
       />
       <Tab.Screen
         name="Settings"
