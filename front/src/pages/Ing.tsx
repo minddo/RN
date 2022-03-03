@@ -3,7 +3,7 @@ import {Dimensions, Text, View} from 'react-native';
 import NaverMapView, {Marker, Path} from 'react-native-nmap';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
-import Geolocation from '@react-native-community/geolocation';
+//import Geolocation from '@react-native-community/geolocation';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {LoggedInParamList} from '../../AppInner';
 
@@ -17,21 +17,21 @@ function Ing({navigation}: IngScreenProps) {
     longitude: number;
   } | null>(null);
 
-  useEffect(() => {
-    Geolocation.getCurrentPosition(
-      info => {
-        setMyPosition({
-          latitude: info.coords.latitude,
-          longitude: info.coords.longitude,
-        });
-      },
-      console.error,
-      {
-        enableHighAccuracy: true,
-        timeout: 20000,
-      },
-    );
-  }, []);
+  // useEffect(() => {
+  //   Geolocation.getCurrentPosition(
+  //     info => {
+  //       setMyPosition({
+  //         latitude: info.coords.latitude,
+  //         longitude: info.coords.longitude,
+  //       });
+  //     },
+  //     console.error,
+  //     {
+  //       enableHighAccuracy: true,
+  //       timeout: 20000,
+  //     },
+  //   );
+  // }, []);
 
   if (!deliveries?.[0]) {
     return (

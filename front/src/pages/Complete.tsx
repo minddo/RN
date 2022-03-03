@@ -15,7 +15,7 @@ import {
   useRoute,
 } from '@react-navigation/native';
 import {LoggedInParamList} from '../../AppInner';
-import ImagePicker from 'react-native-image-crop-picker';
+//import ImagePicker from 'react-native-image-crop-picker';
 import ImageResizer from 'react-native-image-resizer';
 import axios, {AxiosError} from 'axios';
 import {API_URL} from '../constants/constants';
@@ -32,7 +32,6 @@ function Complete() {
     useState<{uri: string; name: string; type: string}>();
   const [preview, setPreview] = useState<{uri: string}>();
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-
   const onResponse = useCallback(async response => {
     console.log(response.width, response.height, response.exif);
     setPreview({uri: `data:${response.mime};base64,${response.data}`});
@@ -56,25 +55,25 @@ function Complete() {
     });
   }, []);
 
-  const onTakePhoto = useCallback(() => {
-    return ImagePicker.openCamera({
-      includeBase64: true,
-      includeExif: true,
-      saveToPhotos: true,
-    })
-      .then(onResponse)
-      .catch(console.log);
-  }, [onResponse]);
+  // const onTakePhoto = useCallback(() => {
+  //   return ImagePicker.openCamera({
+  //     includeBase64: true,
+  //     includeExif: true,
+  //     saveToPhotos: true,
+  //   })
+  //     .then(onResponse)
+  //     .catch(console.log);
+  // }, [onResponse]);
 
-  const onChangeFile = useCallback(() => {
-    return ImagePicker.openPicker({
-      includeExif: true,
-      includeBase64: true,
-      mediaType: 'photo',
-    })
-      .then(onResponse)
-      .catch(console.log);
-  }, [onResponse]);
+  // const onChangeFile = useCallback(() => {
+  //   return ImagePicker.openPicker({
+  //     includeExif: true,
+  //     includeBase64: true,
+  //     mediaType: 'photo',
+  //   })
+  //     .then(onResponse)
+  //     .catch(console.log);
+  // }, [onResponse]);
 
   const orderId = route.params?.orderId;
   const onComplete = useCallback(async () => {
@@ -116,10 +115,10 @@ function Complete() {
         {preview && <Image style={styles.previewImage} source={preview} />}
       </View>
       <View style={styles.buttonWrapper}>
-        <Pressable style={styles.button} onPress={onTakePhoto}>
+        <Pressable style={styles.button}>
           <Text style={styles.buttonText}>이미지 촬영</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={onChangeFile}>
+        <Pressable style={styles.button}>
           <Text style={styles.buttonText}>이미지 선택</Text>
         </Pressable>
         <Pressable

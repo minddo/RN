@@ -76,7 +76,7 @@ function EachOrder({item}: Props) {
       </Pressable>
       {detail && (
         <View>
-          <View
+          {/* <View
             style={{
               width: Dimensions.get('window').width - 30,
               height: 200,
@@ -111,7 +111,7 @@ function EachOrder({item}: Props) {
                 coordinate={{latitude: end.latitude, longitude: end.longitude}}
               />
             </NaverMapView>
-          </View>
+          </View> */}
           <View style={styles.buttonWrapper}>
             <Pressable onPress={onAccept} style={styles.acceptButton}>
               <Text style={styles.buttonText}>수락</Text>
